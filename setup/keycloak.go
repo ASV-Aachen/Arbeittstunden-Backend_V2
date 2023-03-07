@@ -159,18 +159,27 @@ func Check_IsUserTakel(c *fiber.Ctx) error {
 }
 
 func Check_IsUserLoggedIn(c *fiber.Ctx) error {
+
+	admingroups := []string{
+		"Schriftwart",
+		"Entwickler",
+		"Admin",
+	}
+
 	// First Check for arbeitsstundenToken (Token of this service)
 	// ArbeitsstundenCooki
 	firstTokenValue := c.Cookies("ArbeitsstundenCooki")
 
-	if firstTokenValue != ""{
-		vallid, _ := CheckCookie(firstTokenValue)
-	
-		if vallid{
+	if firstTokenValue != "" {
+		vallid, info := CheckCookie(firstTokenValue)
+
+		if vallid {
+			if Check_IsUserPartOfGroup(admingroups, info.Groups) {
+				c.Append("isTakel", "true")
+			}
 			return c.Next()
 		}
 	}
-
 
 	// else, check for keycloak Token
 	token := c.Cookies("token")
@@ -196,6 +205,10 @@ func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 
 	currentMember.Info = currentUser
 	currentMember.Groups = groups
+
+	if Check_IsUserPartOfGroup(admingroups, groups) {
+		c.Append("isTakel", "true")
+	}
 
 	newCookie := CreateCookie(currentMember)
 	c.Cookie(&newCookie)

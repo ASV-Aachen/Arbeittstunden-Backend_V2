@@ -14,8 +14,6 @@ var DB_PASSWORD string = os.Getenv("DB_PASSWORD")
 var DB_NAME string = os.Getenv("DB_NAME")
 var DB_URL string = os.Getenv("DB_URL")
 
-var path string = "/usr/local/bin/sql/"
-
 func DB_Migrate(selectedDatabase *gorm.DB) {
 	// Migrate the schema
 	err := selectedDatabase.AutoMigrate(
