@@ -160,13 +160,22 @@ func Check_IsUserTakel(c *fiber.Ctx) error {
 
 func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 	// First Check for arbeitsstundenToken (Token of this service)
-	// ArbeitsstundenCookie
+	// ArbeitsstundenCooki
+	firstTokenValue := c.Cookies("ArbeitsstundenCooki")
+
+	if firstTokenValue != ""{
+		vallid, _ := CheckCookie(firstTokenValue)
 	
+		if vallid{
+			return c.Next()
+		}
+	}
+
 
 	// else, check for keycloak Token
 	token := c.Cookies("token")
 	if token == "" {
-		log.Fatalf("Token nicht gesendet")
+		log.Fatalf("kein Token gesendet")
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 

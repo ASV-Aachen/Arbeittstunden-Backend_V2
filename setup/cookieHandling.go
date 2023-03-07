@@ -8,8 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func CheckCookie(cookie fiber.Cookie) (bool, gocloak.User) {
-	cookieValue := cookie.Value
+func CheckCookie(cookieValue string) (bool, gocloak.User) {
 	userdata_decrypted, _ := secur.Decrypt(cookieValue)
 	userdata, err := secur.DecodeUser(userdata_decrypted)
 
