@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/ASV-Aachen/ArbeitsstundenDB/modules"
-	db "github.com/ASV-Aachen/ArbeitsstundenDB/modules/DB"
+	"github.com/ASV-Aachen/Arbeittstunden-Backend_V2/modules"
+	db "github.com/ASV-Aachen/Arbeittstunden-Backend_V2/modules/DB"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )

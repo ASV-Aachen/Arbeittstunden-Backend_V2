@@ -4,8 +4,8 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/ASV-Aachen/ArbeitsstundenDB/cmd"
-	"github.com/ASV-Aachen/ArbeitsstundenDB/setup"
+	"github.com/ASV-Aachen/Arbeittstunden-Backend_V2/cmd"
+	"github.com/ASV-Aachen/Arbeittstunden-Backend_V2/setup"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"

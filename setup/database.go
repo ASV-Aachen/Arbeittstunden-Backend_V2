@@ -3,7 +3,7 @@ package setup
 import (
 	"os"
 
-	db "github.com/ASV-Aachen/ArbeitsstundenDB/modules/DB"
+	db "github.com/ASV-Aachen/Arbeittstunden-Backend_V2/modules/DB"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

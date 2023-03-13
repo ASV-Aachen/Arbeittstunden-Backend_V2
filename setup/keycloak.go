@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	gocloak "github.com/ASV-Aachen/ArbeitsstundenDB/modules/gocloak"
+	gocloak "github.com/ASV-Aachen/Arbeittstunden-Backend_V2/modules/gocloak"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -177,7 +177,7 @@ func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 			if Check_IsUserPartOfGroup(admingroups, info.Groups) {
 				c.Append("isTakel", "true")
 				c.Cookie(&fiber.Cookie{
-					Name: "isTakel",
+					Name:  "isTakel",
 					Value: "true",
 				})
 			}
@@ -213,7 +213,7 @@ func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 	if Check_IsUserPartOfGroup(admingroups, groups) {
 		c.Append("isTakel", "true")
 		c.Cookie(&fiber.Cookie{
-			Name: "isTakel",
+			Name:  "isTakel",
 			Value: "true",
 		})
 	}

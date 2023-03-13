@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ASV-Aachen/ArbeitsstundenDB/modules/gocloak"
+	"github.com/ASV-Aachen/Arbeittstunden-Backend_V2/modules/gocloak"
 )
 
 var secret string = os.Getenv("secret")

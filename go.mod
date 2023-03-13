@@ -1,4 +1,4 @@
-module github.com/ASV-Aachen/ArbeitsstundenDB
+module github.com/ASV-Aachen/Arbeittstunden-Backend_V2
 
 go 1.19
 

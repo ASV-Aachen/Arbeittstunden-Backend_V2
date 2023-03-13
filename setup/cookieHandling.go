@@ -3,8 +3,8 @@ package setup
 import (
 	"time"
 
-	gocloak "github.com/ASV-Aachen/ArbeitsstundenDB/modules/gocloak"
-	secur "github.com/ASV-Aachen/ArbeitsstundenDB/utils"
+	gocloak "github.com/ASV-Aachen/Arbeittstunden-Backend_V2/modules/gocloak"
+	secur "github.com/ASV-Aachen/Arbeittstunden-Backend_V2/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
