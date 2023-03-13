@@ -161,7 +161,7 @@ func Check_IsUserTakel(c *fiber.Ctx) error {
 func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 
 	admingroups := []string{
-		"Schriftwart",
+		"Takelmeister",
 		"Entwickler",
 		"Admin",
 	}
@@ -176,6 +176,10 @@ func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 		if vallid {
 			if Check_IsUserPartOfGroup(admingroups, info.Groups) {
 				c.Append("isTakel", "true")
+				c.Cookie(&fiber.Cookie{
+					Name: "isTakel",
+					Value: "true",
+				})
 			}
 			return c.Next()
 		}
@@ -208,6 +212,10 @@ func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 
 	if Check_IsUserPartOfGroup(admingroups, groups) {
 		c.Append("isTakel", "true")
+		c.Cookie(&fiber.Cookie{
+			Name: "isTakel",
+			Value: "true",
+		})
 	}
 
 	newCookie := CreateCookie(currentMember)
