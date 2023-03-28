@@ -2,13 +2,16 @@ package main
 
 import (
 	"crypto/tls"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/ASV-Aachen/Arbeittstunden-Backend_V2/cmd"
 	"github.com/ASV-Aachen/Arbeittstunden-Backend_V2/setup"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -27,7 +30,12 @@ func main() {
 		return c.SendString("App running")
 	})
 
-	var db *gorm.DB = setup.SetUpMariaDB()
+	var db *gorm.DB
+	if os.Getenv("DB_USAGE") == "MYSQL" {
+		db = setup.SetUpMariaDB()
+	} else {
+		db, _ = gorm.Open(sqlite.Open("Sql_Lite.db"), &gorm.Config{})
+	}
 	setup.DB_Migrate(db)
 
 	api := app.Group("/arbeitsstunden/V2/api")
@@ -39,7 +47,7 @@ func main() {
 	member := api.Group("/member")
 	member.Get("", func(c *fiber.Ctx) error { return cmd.GetAllMember(c, db) })
 	member.Get("/WhoAmI", func(c *fiber.Ctx) error {
-
+		log.Printf("SOMEONE CALLED")
 		return c.SendString("")
 	})
 
