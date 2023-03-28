@@ -118,7 +118,7 @@ func Check_IsUserPartOfGroup(gruppen []string, UserGruppen gocloak.GroupToken) b
 func Check_IsUserTakel(c *fiber.Ctx) error {
 	token := c.Cookies("token")
 	if token == "" {
-		log.Fatalf("Token nicht gesendet")
+		log.Printf("Token nicht gesendet")
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
@@ -168,7 +168,7 @@ func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 
 	// First Check for arbeitsstundenToken (Token of this service)
 	// ArbeitsstundenCooki
-	firstTokenValue := c.Cookies("ArbeitsstundenCooki")
+	firstTokenValue := c.Cookies("ArbeitsstundenCookie")
 
 	if firstTokenValue != "" {
 		vallid, info := CheckCookie(firstTokenValue)
@@ -188,7 +188,7 @@ func Check_IsUserLoggedIn(c *fiber.Ctx) error {
 	// else, check for keycloak Token
 	token := c.Cookies("token")
 	if token == "" {
-		log.Fatalf("kein Token gesendet")
+		log.Printf("kein Token gesendet")
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
