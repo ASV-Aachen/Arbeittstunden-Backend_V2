@@ -16,6 +16,7 @@ type Project_item_hour struct {
 	Id       string
 	Member   User `gorm:"embedded"`
 	Duration int
+	Project_item Project_item `gorm:"embedded"`
 }
 
 func (member *Project_item_hour) BeforeCreate(tx *gorm.DB) (err error) {
@@ -33,7 +34,6 @@ type Project_item struct {
 	Description string
 	Approved    bool
 	Countable   bool
-	Work        []Project_item_hour
 }
 
 func (member *Project_item) BeforeCreate(tx *gorm.DB) (err error) {
