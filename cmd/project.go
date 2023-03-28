@@ -9,7 +9,7 @@ import (
 
 func GetAllProject(c *fiber.Ctx, database *gorm.DB) error {
 	var currentProjects []db.Project
-	database.Model(&db.Project{}).Find(currentProjects)
+	database.Model(&db.Project{}).Find(&currentProjects)
 
 	return c.Status(fiber.StatusOK).JSON(currentProjects)
 }
@@ -36,7 +36,7 @@ func SinglePrjectGetInfos(c *fiber.Ctx, database *gorm.DB) error {
 	searched_id := c.Params("projectID")
 
 	var currentProjects db.Project
-	database.Model(&db.Project{Id: searched_id}).First(currentProjects)
+	database.Model(&db.Project{Id: searched_id}).First(&currentProjects)
 
 	return c.Status(fiber.StatusOK).JSON(currentProjects)
 }
@@ -44,7 +44,7 @@ func SinglePrjectGetInfos(c *fiber.Ctx, database *gorm.DB) error {
 func UpdateProject(c *fiber.Ctx, database *gorm.DB) error {
 	searched_id := c.Params("projectID")
 	var currentProjects db.Project
-	database.Model(&db.Project{Id: searched_id}).First(currentProjects)
+	database.Model(&db.Project{Id: searched_id}).First(&currentProjects)
 
 	json := new(modules.JsonProject)
 	if err := c.BodyParser(json); err != nil {

@@ -11,10 +11,10 @@ func GetAllArbeitenForProject(c *fiber.Ctx, database *gorm.DB) error {
 	searched_id := c.Params("projectID")
 
 	var currentProject db.Project
-	database.Model(&db.Project{Id: searched_id}).First(currentProject)
+	database.Model(&db.Project{Id: searched_id}).First(&currentProject)
 
 	var currentArbeiten db.Project_item
-	database.Model(&db.Project_item{Project: currentProject}).Find(currentArbeiten)
+	database.Model(&db.Project_item{Project: currentProject}).Find(&currentArbeiten)
 
 	return c.Status(fiber.StatusOK).JSON(currentArbeiten)
 }
@@ -22,7 +22,7 @@ func GetAllArbeitenForProject(c *fiber.Ctx, database *gorm.DB) error {
 func AddNewArbeitenForProject(c *fiber.Ctx, database *gorm.DB) error {
 	searched_id := c.Params("projectID")
 	var currentProject db.Project
-	database.Model(&db.Project{Id: searched_id}).First(currentProject)
+	database.Model(&db.Project{Id: searched_id}).First(&currentProject)
 
 	json := new(modules.Json_Project_Item)
 	if err := c.BodyParser(json); err != nil {
@@ -46,10 +46,10 @@ func AddNewArbeitenForProject(c *fiber.Ctx, database *gorm.DB) error {
 		temp_work.Duration = i.Duration
 
 		var currentUsers db.User
-		database.Model(&db.User{Id: i.Member}).First(currentUsers)
+		database.Model(&db.User{Id: i.Member}).First(&currentUsers)
 		temp_work.Member = currentUsers
-
-		temp.Work = append(temp.Work, temp_work)
+		temp_work.Project_item = temp
+		database.Save(temp_work)
 	}
 
 	database.Create(temp)
@@ -60,7 +60,7 @@ func AddNewArbeitenForProject(c *fiber.Ctx, database *gorm.DB) error {
 func EinzelneArbeitbearbeiten(c *fiber.Ctx, database *gorm.DB) error {
 	searched_id := c.Params("arbeitsID")
 	var currentArbeit db.Project_item
-	database.Model(&db.Project_item{Id: searched_id}).First(currentArbeit)
+	database.Model(&db.Project_item{Id: searched_id}).First(&currentArbeit)
 
 	json := new(modules.Json_Project_Item)
 	if err := c.BodyParser(json); err != nil {
@@ -77,20 +77,17 @@ func EinzelneArbeitbearbeiten(c *fiber.Ctx, database *gorm.DB) error {
 	currentArbeit.Approved = json.Approved
 	currentArbeit.Countable = json.Countable
 
-	var tempArray []db.Project_item_hour
-
 	for _, i := range json.Work {
 		var temp_work db.Project_item_hour
 		temp_work.Duration = i.Duration
 
 		var currentUsers db.User
-		database.Model(&db.User{Id: i.Member}).First(currentUsers)
+		database.Model(&db.User{Id: i.Member}).First(&currentUsers)
 		temp_work.Member = currentUsers
 
-		tempArray = append(tempArray, temp_work)
+		temp_work.Project_item = currentArbeit
+		database.Save(temp_work)
 	}
-
-	currentArbeit.Work = tempArray
 
 	database.Save(currentArbeit)
 
@@ -100,7 +97,7 @@ func EinzelneArbeitbearbeiten(c *fiber.Ctx, database *gorm.DB) error {
 func ArbeiteEntfernen(c *fiber.Ctx, database *gorm.DB) error {
 	searched_id := c.Params("arbeitsID")
 	var currentArbeit db.Project_item
-	database.Model(&db.Project_item{Id: searched_id}).First(currentArbeit)
+	database.Model(&db.Project_item{Id: searched_id}).First(&currentArbeit)
 
 	database.Delete(currentArbeit)
 
@@ -109,7 +106,7 @@ func ArbeiteEntfernen(c *fiber.Ctx, database *gorm.DB) error {
 
 func GetAllArbeitenNotChecked(c *fiber.Ctx, database *gorm.DB) error {
 	var currentArbeit []db.Project_item
-	database.Model(&db.Project_item{Approved: false}).First(currentArbeit)
+	database.Model(&db.Project_item{Approved: false}).First(&currentArbeit)
 
 	return c.Status(fiber.StatusOK).JSON(currentArbeit)
 }

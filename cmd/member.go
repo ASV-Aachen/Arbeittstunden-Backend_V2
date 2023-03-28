@@ -9,7 +9,7 @@ import (
 
 func GetAllMember(c *fiber.Ctx, database *gorm.DB) error {
 	var currentUsers []db.User
-	database.Model(&db.User{}).Find(currentUsers)
+	database.Model(&db.User{}).Find(&currentUsers)
 
 	return c.Status(fiber.StatusOK).JSON(currentUsers)
 }
@@ -17,7 +17,7 @@ func GetAllMember(c *fiber.Ctx, database *gorm.DB) error {
 func GetMember(c *fiber.Ctx, database *gorm.DB) error {
 	searched_id := c.Params("memberID")
 	var currentUsers db.User
-	database.Model(&db.User{Id: searched_id}).Find(currentUsers)
+	database.Model(&db.User{Id: searched_id}).Find(&currentUsers)
 
 	return c.Status(fiber.StatusOK).JSON(currentUsers)
 }
@@ -30,7 +30,7 @@ func MemberBearbeiten(c *fiber.Ctx, database *gorm.DB) error {
 	}
 
 	var currentUsers db.User
-	database.Model(&db.User{Id: searched_id}).Find(currentUsers)
+	database.Model(&db.User{Id: searched_id}).Find(&currentUsers)
 	currentUsers.Rolle = json.Rolle
 	database.Save(currentUsers)
 
